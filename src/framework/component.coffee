@@ -1,6 +1,6 @@
 window.Rrs ?= {}
 
-class Rrs.PageComponent
+class Rrs.Component
   init: ->
     Rrs.logger.log "PageComponent called"
 

@@ -14,10 +14,10 @@ class Rrs.PageModule
     jQuery.extend(@components, _props.components) if _props?.components?
 
     for cmpName, cmp  of @components 
-      if cmp instanceof Rrs.PageComponent
+      if cmp instanceof Rrs.Component
         cmp.init()
       else
-        Rrs.logger.error "#{cmp.toString()} is not an instance of PageComponent"
+        Rrs.logger.error "#{cmp.toString()} is not an instance of Component"
 
   @create: (inProps)->
     className = Rrs.Obj.getClass(@)
@@ -25,5 +25,5 @@ class Rrs.PageModule
 
 
   _checkEnv: ->
-    unless Rrs.PageComponent?
-      throw new Error "Rrs.PageComponent is not defined"
+    unless Rrs.Component?
+      throw new Error "Rrs.Component is not defined"

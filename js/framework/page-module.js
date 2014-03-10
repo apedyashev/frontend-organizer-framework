@@ -21,10 +21,10 @@ Rrs.PageModule = (function() {
     _ref = this.components;
     for (cmpName in _ref) {
       cmp = _ref[cmpName];
-      if (cmp instanceof Rrs.PageComponent) {
+      if (cmp instanceof Rrs.Component) {
         cmp.init();
       } else {
-        Rrs.logger.error("" + (cmp.toString()) + " is not an instance of PageComponent");
+        Rrs.logger.error("" + (cmp.toString()) + " is not an instance of Component");
       }
     }
   }
@@ -36,8 +36,8 @@ Rrs.PageModule = (function() {
   };
 
   PageModule.prototype._checkEnv = function() {
-    if (Rrs.PageComponent == null) {
-      throw new Error("Rrs.PageComponent is not defined");
+    if (Rrs.Component == null) {
+      throw new Error("Rrs.Component is not defined");
     }
   };
 

@@ -1,4 +1,4 @@
-class SearchPanel extends Rrs.PageComponent
+class SearchPanel extends Rrs.Component
   elements:
     searchInput   : $('#search')
     searchButton  : $('#search-button')

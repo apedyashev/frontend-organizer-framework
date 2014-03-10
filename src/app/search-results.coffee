@@ -1,4 +1,4 @@
-class SearchResults extends Rrs.PageComponent
+class SearchResults extends Rrs.Component
   elements:
     resultsContainer: $('#res-container')
 

@@ -3,22 +3,22 @@ if (window.Rrs == null) {
   window.Rrs = {};
 }
 
-Rrs.PageComponent = (function() {
-  function PageComponent() {}
+Rrs.Component = (function() {
+  function Component() {}
 
-  PageComponent.prototype.init = function() {
+  Component.prototype.init = function() {
     Rrs.logger.log("PageComponent called");
     this._initHandlers();
     return this._initListeners();
   };
 
-  PageComponent.prototype.emit = function(inSignalName, inData) {
+  Component.prototype.emit = function(inSignalName, inData) {
     var sender;
     sender = Rrs.Obj.getClass(this);
     return Rrs.Observer.instance().emit(sender, inSignalName, inData);
   };
 
-  PageComponent.prototype._initHandlers = function() {
+  Component.prototype._initHandlers = function() {
     var elementName, eventName, handler, handlerData, handlerName, _ref, _ref1, _results;
     _ref = this.handlers;
     _results = [];
@@ -41,7 +41,7 @@ Rrs.PageComponent = (function() {
     return _results;
   };
 
-  PageComponent.prototype._initListeners = function() {
+  Component.prototype._initListeners = function() {
     var listenerCallback, listenerName, listenerNameData, _ref, _results;
     _ref = this.listeners;
     _results = [];
@@ -63,6 +63,6 @@ Rrs.PageComponent = (function() {
     return _results;
   };
 
-  return PageComponent;
+  return Component;
 
 })();

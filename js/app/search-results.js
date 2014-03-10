@@ -45,4 +45,4 @@ SearchResults = (function(_super) {
 
   return SearchResults;
 
-})(Rrs.PageComponent);
+})(Rrs.Component);
