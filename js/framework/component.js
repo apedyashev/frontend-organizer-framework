@@ -46,8 +46,14 @@ PageComponent = (function() {
     for (listenerName in _ref) {
       listenerCallback = _ref[listenerName];
       listenerNameData = listenerName.split(":");
-      if ((listenerNameData != null) && listenerNameData.length === 2) {
-        _results.push(Rrs.Observer.instance().listen(listenerNameData[0], listenerNameData[1], listenerCallback, this));
+      if ((listenerNameData != null) && ((listenerNameData.length === 1) || (listenerNameData.length === 2))) {
+        if (listenerNameData.length === 1) {
+          _results.push(Rrs.Observer.instance().listen(null, listenerNameData[0], listenerCallback, this));
+        } else if (listenerNameData.length === 2) {
+          _results.push(Rrs.Observer.instance().listen(listenerNameData[0], listenerNameData[1], listenerCallback, this));
+        } else {
+          _results.push(void 0);
+        }
       } else {
         _results.push(Rrs.logger.error("Invalid listener format of name (" + listenerName + "). Must be Namespace:signal"));
       }

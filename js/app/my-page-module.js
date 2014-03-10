@@ -11,7 +11,8 @@ MyPageModule = (function(_super) {
   }
 
   MyPageModule.prototype.components = {
-    searchResults: new SearchResults
+    searchResults: new SearchResults,
+    notificationArea: new NotificationArea
   };
 
   return MyPageModule;
@@ -22,7 +23,7 @@ $(document).ready(function() {
   var pageModule;
   return pageModule = MyPageModule.create({
     components: {
-      SearchAutocomplete: new SearchAutocomplete
+      searchPanel: new SearchPanel
     }
   });
 });

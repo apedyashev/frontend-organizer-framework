@@ -26,7 +26,10 @@ class PageComponent
   _initListeners: ->
     for listenerName, listenerCallback of @listeners
       listenerNameData = listenerName.split ":"
-      if listenerNameData? and listenerNameData.length is 2
-        Rrs.Observer.instance().listen( listenerNameData[0], listenerNameData[1], listenerCallback, @ )
+      if listenerNameData? and ((listenerNameData.length is 1) or (listenerNameData.length is 2))
+        if listenerNameData.length is 1
+          Rrs.Observer.instance().listen( null, listenerNameData[0], listenerCallback, @ )
+        else if listenerNameData.length is 2
+          Rrs.Observer.instance().listen( listenerNameData[0], listenerNameData[1], listenerCallback, @ )
       else
         Rrs.logger.error "Invalid listener format of name (#{listenerName}). Must be Namespace:signal"

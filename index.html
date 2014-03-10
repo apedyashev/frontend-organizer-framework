@@ -9,18 +9,30 @@
 
     </head>
     <body>
-    <input id="search" type="text" />
-    <a id="search-button" href="javascript:;">Search</a>
+      <div id="notification-area">
+      </div>
+
+      <input id="search" type="text" />
+      <a id="search-button" href="javascript:;">Search</a>
+
+      <table>
+        <tbody id="res-container">
+        </tbody>
+    </table>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="js/utils.js"></script>
-        <script src="js/observer.js"></script>
-        <script src="js/logger.js"></script>
-        <script src="js/component.js"></script>
-        <script src="js/search-autocomplete.js"></script>
-        <script src="js/search-results.js"></script>
-        <script src="js/page-module.js"></script>
-        <script src="js/my-page-module.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+        
+        <script src="js/framework/utils.js"></script>
+        <script src="js/framework/observer.js"></script>
+        <script src="js/framework/logger.js"></script>
+        <script src="js/framework/component.js"></script>
+        <script src="js/framework/page-module.js"></script>
+
+        <script src="js/app/search-autocomplete.js"></script>
+        <script src="js/app/search-results.js"></script>
+        <script src="js/app/notification-area.js"></script>
+        <script src="js/app/my-page-module.js"></script>
 
     </body>
 </html>
