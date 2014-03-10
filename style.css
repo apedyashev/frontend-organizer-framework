@@ -1,0 +1,44 @@
+.notification-area{
+  margin-bottom: 10px;
+}
+.notification-area .notification{
+  border-radius: 5px;
+  padding: 10px; 
+  color: #fff;
+}
+
+.notification-area .notification span{
+  text-transform: capitalize;
+}
+
+/*Error notification*/
+.notification-area .error{
+  background-color: #e0a98f;
+}
+
+.notification-area .error span{
+  color: #bf2828;
+}
+
+
+/*Success notification*/
+.notification-area .success{
+  background-color: #a3e2d3;
+}
+
+.notification-area .success span{
+  color: #45a871;
+}
+
+/*Search results table*/
+.search-results thead, .search-results td:first-child{
+  background-color: #e5e3e3;
+}
+
+.btn{
+  background-color: #e5e3e3;
+  padding: 5px;
+  border-radius: 5px;
+  color: #45a871;
+  text-decoration: none;
+}

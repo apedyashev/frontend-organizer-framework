@@ -1,6 +1,6 @@
 class NotificationArea extends PageComponent
-  template: _.template """<div class="<%= className %>">
-    <%= className %>: <%= message %>
+  template: _.template """<div class="notification <%= className %>">
+    <span><%= className %>:</span> <%= message %>
   </div>
   """
 

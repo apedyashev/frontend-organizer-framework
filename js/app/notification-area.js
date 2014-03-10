@@ -10,7 +10,7 @@ NotificationArea = (function(_super) {
     return NotificationArea.__super__.constructor.apply(this, arguments);
   }
 
-  NotificationArea.prototype.template = _.template("<div class=\"<%= className %>\">\n  <%= className %>: <%= message %>\n</div>");
+  NotificationArea.prototype.template = _.template("<div class=\"notification <%= className %>\">\n  <span><%= className %>:</span> <%= message %>\n</div>");
 
   NotificationArea.prototype.elements = {
     notificationArea: $('#notification-area')
