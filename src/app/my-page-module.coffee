@@ -1,4 +1,4 @@
-class MyPageModule extends PageModule 
+class MyPageModule extends Rrs.PageModule 
   components:
     searchResults       : new SearchResults
     notificationArea    : new NotificationArea

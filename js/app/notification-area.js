@@ -24,4 +24,4 @@ NotificationArea = (function(_super) {
 
   return NotificationArea;
 
-})(PageComponent);
+})(Rrs.PageComponent);

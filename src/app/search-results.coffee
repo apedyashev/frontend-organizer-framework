@@ -1,4 +1,4 @@
-class SearchResults extends PageComponent
+class SearchResults extends Rrs.PageComponent
   elements:
     resultsContainer: $('#res-container')
 
@@ -22,7 +22,7 @@ class SearchResults extends PageComponent
 
         notification =
           className: 'success'
-          message: "#{data.items.length} items has been rendered (notification sent from SearchResults)"
+          message: "#{data.items.length} items have been rendered (notification sent from SearchResults)"
       else
         notification = 
           className: 'error'

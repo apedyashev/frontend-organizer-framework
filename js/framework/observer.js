@@ -38,6 +38,9 @@ Rrs.Observer = (function() {
     } else {
       signal = inSignalName;
     }
+    if (context == null) {
+      throw new Error("Conext is not set for " + signal);
+    }
     Rrs.logger.debug("Attaching listener to " + signal + " signal.", this._listeners);
     return this._listeners[signal] = {
       callback: callback,

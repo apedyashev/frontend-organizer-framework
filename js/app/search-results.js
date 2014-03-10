@@ -29,7 +29,7 @@ SearchResults = (function(_super) {
         this.emit("rendered");
         notification = {
           className: 'success',
-          message: "" + data.items.length + " items has been rendered (notification sent from SearchResults)"
+          message: "" + data.items.length + " items have been rendered (notification sent from SearchResults)"
         };
       } else {
         notification = {
@@ -45,4 +45,4 @@ SearchResults = (function(_super) {
 
   return SearchResults;
 
-})(PageComponent);
+})(Rrs.PageComponent);

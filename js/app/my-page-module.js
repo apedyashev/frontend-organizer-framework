@@ -17,7 +17,7 @@ MyPageModule = (function(_super) {
 
   return MyPageModule;
 
-})(PageModule);
+})(Rrs.PageModule);
 
 $(document).ready(function() {
   var pageModule;

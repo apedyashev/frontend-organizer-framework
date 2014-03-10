@@ -27,6 +27,10 @@ class Rrs.Observer
       signal = "#{inNamespace}:#{inSignalName}"
     else 
       signal = inSignalName
+
+    unless context?
+      throw new Error "Conext is not set for #{signal}"
+
     Rrs.logger.debug "Attaching listener to #{signal} signal.", @_listeners 
 
     @_listeners[signal] = 

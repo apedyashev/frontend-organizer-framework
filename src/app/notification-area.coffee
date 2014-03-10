@@ -1,4 +1,4 @@
-class NotificationArea extends PageComponent
+class NotificationArea extends Rrs.PageComponent
   template: _.template """<div class="notification <%= className %>">
     <span><%= className %>:</span> <%= message %>
   </div>

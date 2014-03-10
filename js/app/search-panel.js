@@ -51,4 +51,4 @@ SearchPanel = (function(_super) {
 
   return SearchPanel;
 
-})(PageComponent);
+})(Rrs.PageComponent);
