@@ -22,11 +22,11 @@ class SearchResults extends PageComponent
 
         notification =
           className: 'success'
-          message: "#{data.items.length} items has been rendered"
+          message: "#{data.items.length} items has been rendered (notification sent from SearchResults)"
       else
         notification = 
           className: 'error'
-          message: "There are no items to render"
+          message: "There are no items to render (notification sent from SearchResults)"
 
       # notify any subscribed object about rendering result
       # if instance of SearchAutocomplete class (or any another component) are subsribed to this signal, 

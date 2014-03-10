@@ -29,12 +29,12 @@ SearchResults = (function(_super) {
         this.emit("rendered");
         notification = {
           className: 'success',
-          message: "" + data.items.length + " items has been rendered"
+          message: "" + data.items.length + " items has been rendered (notification sent from SearchResults)"
         };
       } else {
         notification = {
           className: 'error',
-          message: "There are no items to render"
+          message: "There are no items to render (notification sent from SearchResults)"
         };
       }
       return this.emit("notification", {

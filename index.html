@@ -9,16 +9,24 @@
 
     </head>
     <body>
-      <div id="notification-area">
+      <div id="notification-area" class="notification-area">
       </div>
 
-      <input id="search" type="text" />
-      <a id="search-button" href="javascript:;">Search</a>
+      <div class="search-panel">
+        <input id="search" type="text" />
+        <a id="search-button" href="javascript:;">Search</a>
+      </div>
 
-      <table>
+      <table class="search-results">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+          </tr>
+        </thead>
         <tbody id="res-container">
         </tbody>
-    </table>
+      </table>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
@@ -29,7 +37,7 @@
         <script src="js/framework/component.js"></script>
         <script src="js/framework/page-module.js"></script>
 
-        <script src="js/app/search-autocomplete.js"></script>
+        <script src="js/app/search-panel.js"></script>
         <script src="js/app/search-results.js"></script>
         <script src="js/app/notification-area.js"></script>
         <script src="js/app/my-page-module.js"></script>
