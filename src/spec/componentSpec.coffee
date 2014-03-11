@@ -65,3 +65,6 @@ describe "Rrs.Component", ->
 
       expect(search.listeners["ResultWidget:rendered"]).toHaveBeenCalledWith( renderedResultsInfo )
       expect(search.listeners["rendered"]).toHaveBeenCalledWith( renderedResultsInfo )
+
+
+  describe "attaches DOM events handlers", ->

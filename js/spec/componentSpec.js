@@ -4,7 +4,7 @@ describe("Rrs.Component", function() {
   search = null;
   result = null;
   userPanel = null;
-  return describe("attaches signals listeners", function() {
+  describe("attaches signals listeners", function() {
     beforeEach(function() {
       search = new SearchWidget;
       result = new ResultWidget;
@@ -63,4 +63,5 @@ describe("Rrs.Component", function() {
       return expect(search.listeners["rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
     });
   });
+  return describe("attaches DOM events handlers", function() {});
 });
