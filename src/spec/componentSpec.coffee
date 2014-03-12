@@ -4,6 +4,10 @@ describe "Rrs.Component", ->
   result    = null
   userPanel = null
 
+  #####################################
+  #   listeners
+  #####################################
+
   describe "attaches signals listeners", ->
 
     beforeEach ->
@@ -67,4 +71,38 @@ describe "Rrs.Component", ->
       expect(search.listeners["rendered"]).toHaveBeenCalledWith( renderedResultsInfo )
 
 
+
+  #####################################
+  #   DOM events
+  #####################################
+
   describe "attaches DOM events handlers", ->
+    search = null
+
+    beforeEach ->
+      console.error '--------------'
+      setUpHTMLFixture()
+
+      search    = new SearchWidget
+      # spyOn search.handlers, "searchButton click"
+
+      search.init()
+
+
+
+    it "invokes click event", ->
+      spyEvent = spyOnEvent('#search-btn', 'click')
+      $('#search-btn').trigger "click" 
+
+      expect('click').toHaveBeenTriggeredOn('#search-btn')
+      expect(spyEvent).toHaveBeenTriggered()
+
+
+
+    it "invokes a handler that was assigned to click event", ->
+      $('#search-btn').trigger "click" 
+
+      expect( $('#search-btn') ).toHandleWith('click', search.handlers["searchButton click"])
+
+      # expect(search.handlers["searchButton click"]).toHaveBeenCalled()
+

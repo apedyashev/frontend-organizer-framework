@@ -2,8 +2,6 @@ window.Rrs ?= {}
 
 class Rrs.Component
   init: ->
-    Rrs.logger.log "PageComponent called"
-
     @_initHandlers()
     @_initListeners()
 
@@ -16,13 +14,21 @@ class Rrs.Component
       handlerData = handlerName.split(' ')
       elementName = handlerData[0]
       eventName   = handlerData[1]
+      
+      element = @elements[elementName]
+      if Rrs.Util.isString element
+        element = jQuery(element)
+      else if Rrs.Util.isJQeryObject element
+        element = jQuery(element.selector)
+      else
+        throw new Error "#{elementName} must be either string selector or jQuery object"
 
-      if @elements[elementName]?.length > 0
+      if element.length > 0
         @elements[elementName].unbind eventName
         @elements[elementName].bind eventName, =>
           handler.call(@)
       else
-        Rrs.logger.error "Unable to bind #{eventName} for #{elementName} since #{elementName} does not exist"
+        Rrs.logger.error "Unable to bind #{eventName} for #{elementName} since #{elementName} node does not exist in DOM"
 
 
   _initListeners: ->

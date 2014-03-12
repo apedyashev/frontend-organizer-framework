@@ -63,5 +63,24 @@ describe("Rrs.Component", function() {
       return expect(search.listeners["rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
     });
   });
-  return describe("attaches DOM events handlers", function() {});
+  return describe("attaches DOM events handlers", function() {
+    search = null;
+    beforeEach(function() {
+      console.error('--------------');
+      setUpHTMLFixture();
+      search = new SearchWidget;
+      return search.init();
+    });
+    it("invokes click event", function() {
+      var spyEvent;
+      spyEvent = spyOnEvent('#search-btn', 'click');
+      $('#search-btn').trigger("click");
+      expect('click').toHaveBeenTriggeredOn('#search-btn');
+      return expect(spyEvent).toHaveBeenTriggered();
+    });
+    return it("invokes a handler that was assigned to click event", function() {
+      $('#search-btn').trigger("click");
+      return expect($('#search-btn')).toHandleWith('click', search.handlers["searchButton click"]);
+    });
+  });
 });

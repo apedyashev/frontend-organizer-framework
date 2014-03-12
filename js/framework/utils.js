@@ -50,3 +50,18 @@ Rrs.Obj = (function() {
   return Obj;
 
 })();
+
+Rrs.Util = {
+  isString: function(object) {
+    return (typeof object).toLowerCase() === 'string';
+  },
+  isObject: function(object) {
+    return (typeof object).toLowerCase() === 'object';
+  },
+  isFunction: function(object) {
+    return (typeof object).toLowerCase() === 'function';
+  },
+  isJQeryObject: function(object) {
+    return object instanceof jQuery;
+  }
+};

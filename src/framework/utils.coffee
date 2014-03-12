@@ -18,3 +18,16 @@ class Rrs.Obj
      className = false
 
     className
+
+Rrs.Util =
+  isString: (object)->
+    (typeof object).toLowerCase() is 'string'
+
+  isObject: (object)->
+    (typeof object).toLowerCase() is 'object'
+
+  isFunction: (object)->
+    (typeof object).toLowerCase() is 'function'
+
+  isJQeryObject: (object)->
+    object instanceof jQuery

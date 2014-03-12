@@ -7,7 +7,6 @@ Rrs.Component = (function() {
   function Component() {}
 
   Component.prototype.init = function() {
-    Rrs.logger.log("PageComponent called");
     this._initHandlers();
     return this._initListeners();
   };
@@ -19,7 +18,7 @@ Rrs.Component = (function() {
   };
 
   Component.prototype._initHandlers = function() {
-    var elementName, eventName, handler, handlerData, handlerName, _ref, _ref1, _results;
+    var element, elementName, eventName, handler, handlerData, handlerName, _ref, _results;
     _ref = this.handlers;
     _results = [];
     for (handlerName in _ref) {
@@ -27,7 +26,15 @@ Rrs.Component = (function() {
       handlerData = handlerName.split(' ');
       elementName = handlerData[0];
       eventName = handlerData[1];
-      if (((_ref1 = this.elements[elementName]) != null ? _ref1.length : void 0) > 0) {
+      element = this.elements[elementName];
+      if (Rrs.Util.isString(element)) {
+        element = jQuery(element);
+      } else if (Rrs.Util.isJQeryObject(element)) {
+        element = jQuery(element.selector);
+      } else {
+        throw new Error("" + elementName + " must be either string selector or jQuery object");
+      }
+      if (element.length > 0) {
         this.elements[elementName].unbind(eventName);
         _results.push(this.elements[elementName].bind(eventName, (function(_this) {
           return function() {
@@ -35,7 +42,7 @@ Rrs.Component = (function() {
           };
         })(this)));
       } else {
-        _results.push(Rrs.logger.error("Unable to bind " + eventName + " for " + elementName + " since " + elementName + " does not exist"));
+        _results.push(Rrs.logger.error("Unable to bind " + eventName + " for " + elementName + " since " + elementName + " node does not exist in DOM"));
       }
     }
     return _results;
