@@ -8,12 +8,10 @@ class Rrs.PageModule
 
     @_checkEnv()
 
-    #if 'components' is not defined in derived class then init it
-    @components = {} unless @components?
+    @_components = Rrs.Obj.extend(@_components, @components)
+    @_components = Rrs.Obj.extend(@_components, _props.components) if _props?.components?
 
-    jQuery.extend(@components, _props.components) if _props?.components?
-
-    for cmpName, cmp  of @components 
+    for cmpName, cmp  of @_components 
       if cmp instanceof Rrs.Component
         cmp.init()
       else

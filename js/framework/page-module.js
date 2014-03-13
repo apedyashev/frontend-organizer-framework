@@ -12,13 +12,11 @@ Rrs.PageModule = (function() {
     var cmp, cmpName, _ref;
     _props = inProps;
     this._checkEnv();
-    if (this.components == null) {
-      this.components = {};
-    }
+    this._components = Rrs.Obj.extend(this._components, this.components);
     if ((_props != null ? _props.components : void 0) != null) {
-      jQuery.extend(this.components, _props.components);
+      this._components = Rrs.Obj.extend(this._components, _props.components);
     }
-    _ref = this.components;
+    _ref = this._components;
     for (cmpName in _ref) {
       cmp = _ref[cmpName];
       if (cmp instanceof Rrs.Component) {

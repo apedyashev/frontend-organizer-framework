@@ -20,7 +20,8 @@ class Rrs.Obj
     className
 
   @extend: (object, properties) ->
-    object = {} unless object?
+    object      = {} unless object?
+    properties  = {} unless properties?
     for key, val of properties
       object[key] = val
     object

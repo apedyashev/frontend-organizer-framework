@@ -52,6 +52,9 @@ Rrs.Obj = (function() {
     if (object == null) {
       object = {};
     }
+    if (properties == null) {
+      properties = {};
+    }
     for (key in properties) {
       val = properties[key];
       object[key] = val;
