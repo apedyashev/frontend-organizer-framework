@@ -4,15 +4,114 @@ describe("Rrs.Component", function() {
   search = null;
   result = null;
   userPanel = null;
+  describe("provides the create() function", function() {
+    it("to create an instance of class ", function() {
+      userPanel = UserPanelWidget.create();
+      return expect(userPanel instanceof UserPanelWidget).toBeTruthy();
+    });
+    it("to creates unique instances of class", function() {
+      var userPanel1, userPanel2;
+      userPanel1 = UserPanelWidget.create();
+      userPanel2 = UserPanelWidget.create();
+      return expect(userPanel1).not.toBe(userPanel2);
+    });
+    it("to extend elements property defined in the class", function() {
+      var searchWidget;
+      searchWidget = SearchWidget.create({
+        elements: {
+          avatar: '#avatar-selector',
+          name: '#name-field'
+        }
+      });
+      expect(searchWidget._elements.searchButton.selector).toEqual('#search-btn');
+      expect(searchWidget._elements.avatar).toEqual('#avatar-selector');
+      return expect(searchWidget._elements.name).toEqual('#name-field');
+    });
+    it("to extend handlers property defined in the class", function() {
+      var avatarClickHandler, nameFocusHandler, searchWidget;
+      avatarClickHandler = function() {
+        return 11;
+      };
+      nameFocusHandler = function() {
+        return 332;
+      };
+      searchWidget = SearchWidget.create({
+        elements: {
+          avatar: '#avatar-selector',
+          name: '#name-field'
+        },
+        handlers: {
+          'avatar click': avatarClickHandler,
+          'name focus': nameFocusHandler
+        }
+      });
+      expect(searchWidget._handlers['searchButton click']).toEqual(window.searchBtnClickHandler);
+      expect(searchWidget._handlers['avatar click']).toEqual(avatarClickHandler);
+      return expect(searchWidget._handlers['name focus']).toEqual(nameFocusHandler);
+    });
+    return it("to extend listeners property defined in the class", function() {
+      var searchWidget, signal1Listener, signal2Listener;
+      signal1Listener = function() {
+        return 11;
+      };
+      signal2Listener = function() {
+        return 332;
+      };
+      searchWidget = SearchWidget.create({
+        listeners: {
+          'ResultWidget:signal1': signal1Listener,
+          'signal2': signal2Listener
+        }
+      });
+      expect(searchWidget._listeners['ResultWidget:rendered']).toEqual(window.resultWidgetRenderedListener);
+      expect(searchWidget._listeners['rendered']).toEqual(window.renderedListener);
+      expect(searchWidget._listeners['ResultWidget:signal1']).toEqual(signal1Listener);
+      return expect(searchWidget._listeners['signal2']).toEqual(signal2Listener);
+    });
+  });
+  describe("throws an exception on init() function call when", function() {
+    it("element selector is not a sting or jQuery object", function() {
+      var elementName, exception, searchWidget;
+      searchWidget = SearchWidget.create({
+        elements: {
+          someEl: null
+        },
+        handlers: {
+          'someEl click': function() {}
+        }
+      });
+      elementName = 'someEl';
+      exception = new Error("" + elementName + " must be either string selector or jQuery object");
+      return expect(function() {
+        return searchWidget.init();
+      }).toThrow(exception);
+    });
+    return it("handler's property key has incorrect format", function() {
+      var elementName, exception, searchWidget;
+      searchWidget = SearchWidget.create({
+        elements: {
+          someEl: '.selector'
+        },
+        handlers: {
+          'someEl  click': function() {}
+        }
+      });
+      elementName = 'someEl';
+      exception = new Error("" + elementName + " has incorrect format. Selector name and event name must be splitted with single space");
+      return expect(function() {
+        return searchWidget.init();
+      }).toThrow(exception);
+    });
+  });
   describe("attaches signals listeners", function() {
     beforeEach(function() {
       search = new SearchWidget;
       result = new ResultWidget;
       userPanel = new UserPanelWidget;
-      spyOn(result.listeners, "SearchWidget:render");
-      spyOn(result.listeners, "SearchWidget:hello");
-      spyOn(search.listeners, "ResultWidget:rendered");
-      spyOn(search.listeners, "rendered");
+      spyOn(result._listeners, "SearchWidget:render");
+      spyOn(result._listeners, "SearchWidget:hello");
+      spyOn(search._listeners, "ResultWidget:rendered");
+      spyOn(search._listeners, "rendered");
       search.init();
       result.init();
       return userPanel.init();
@@ -30,14 +129,14 @@ describe("Rrs.Component", function() {
         time: 123
       };
       result.emit('rendered', renderedResultsInfo);
-      expect(result.listeners["SearchWidget:render"]).toHaveBeenCalled();
-      expect(result.listeners["SearchWidget:render"]).toHaveBeenCalledWith({
+      expect(result._listeners["SearchWidget:render"]).toHaveBeenCalled();
+      expect(result._listeners["SearchWidget:render"]).toHaveBeenCalledWith({
         items: items
       });
-      expect(result.listeners["SearchWidget:hello"]).toHaveBeenCalled();
-      expect(result.listeners["SearchWidget:hello"]).toHaveBeenCalledWith(welcomeMessage);
-      expect(search.listeners["ResultWidget:rendered"]).toHaveBeenCalled();
-      return expect(search.listeners["ResultWidget:rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
+      expect(result._listeners["SearchWidget:hello"]).toHaveBeenCalled();
+      expect(result._listeners["SearchWidget:hello"]).toHaveBeenCalledWith(welcomeMessage);
+      expect(search._listeners["ResultWidget:rendered"]).toHaveBeenCalled();
+      return expect(search._listeners["ResultWidget:rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
     });
     it("when namespace is not presented", function() {
       var user;
@@ -48,7 +147,7 @@ describe("Rrs.Component", function() {
       userPanel.emit('rendered', {
         user: user
       });
-      return expect(search.listeners["rendered"]).toHaveBeenCalledWith({
+      return expect(search._listeners["rendered"]).toHaveBeenCalledWith({
         user: user
       });
     });
@@ -59,28 +158,41 @@ describe("Rrs.Component", function() {
         time: 123
       };
       result.emit('rendered', renderedResultsInfo);
-      expect(search.listeners["ResultWidget:rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
-      return expect(search.listeners["rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
+      expect(search._listeners["ResultWidget:rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
+      return expect(search._listeners["rendered"]).toHaveBeenCalledWith(renderedResultsInfo);
     });
   });
   return describe("attaches DOM events handlers", function() {
+    var searchButtonSelector;
     search = null;
+    searchButtonSelector = null;
     beforeEach(function() {
-      console.error('--------------');
       setUpHTMLFixture();
       search = new SearchWidget;
+      spyOn(search._handlers, "searchButton click");
+      searchButtonSelector = search._elements.searchButton.selector;
       return search.init();
+    });
+    afterEach(function() {
+      return $(searchButtonSelector).unbind('click');
     });
     it("invokes click event", function() {
       var spyEvent;
-      spyEvent = spyOnEvent('#search-btn', 'click');
-      $('#search-btn').trigger("click");
-      expect('click').toHaveBeenTriggeredOn('#search-btn');
+      spyEvent = spyOnEvent(searchButtonSelector, 'click');
+      $(searchButtonSelector).trigger("click");
+      expect('click').toHaveBeenTriggeredOn(searchButtonSelector);
       return expect(spyEvent).toHaveBeenTriggered();
     });
-    return it("invokes a handler that was assigned to click event", function() {
-      $('#search-btn').trigger("click");
-      return expect($('#search-btn')).toHandleWith('click', search.handlers["searchButton click"]);
+    it("invokes a handler that was assigned to click event", function() {
+      $(searchButtonSelector).trigger("click");
+      return expect(search._handlers["searchButton click"]).toHaveBeenCalled();
+    });
+    it("DOESN'T invoke a handler that when no click occured", function() {
+      return expect(search._handlers["searchButton click"]).not.toHaveBeenCalled();
+    });
+    return it("throws an exception when element selector is not a string or jQuery object", function() {
+      var invalidSelector;
+      return invalidSelector = InvalidSelectorWidget.create();
     });
   });
 });

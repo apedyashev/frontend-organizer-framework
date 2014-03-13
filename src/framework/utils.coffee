@@ -19,6 +19,12 @@ class Rrs.Obj
 
     className
 
+  @extend: (object, properties) ->
+    object = {} unless object?
+    for key, val of properties
+      object[key] = val
+    object
+
 Rrs.Util =
   isString: (object)->
     (typeof object).toLowerCase() is 'string'

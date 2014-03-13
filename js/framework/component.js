@@ -4,7 +4,26 @@ if (window.Rrs == null) {
 }
 
 Rrs.Component = (function() {
-  function Component() {}
+  function Component(inProps) {
+    this._elements = Rrs.Obj.extend(this._elements, this.elements);
+    this._listeners = Rrs.Obj.extend(this._listeners, this.listeners);
+    this._handlers = Rrs.Obj.extend(this._handlers, this.handlers);
+    if ((inProps != null ? inProps.elements : void 0) != null) {
+      this._elements = Rrs.Obj.extend(this._elements, inProps.elements);
+    }
+    if ((inProps != null ? inProps.listeners : void 0) != null) {
+      this._listeners = Rrs.Obj.extend(this._listeners, inProps.listeners);
+    }
+    if ((inProps != null ? inProps.handlers : void 0) != null) {
+      this._handlers = Rrs.Obj.extend(this._handlers, inProps.handlers);
+    }
+  }
+
+  Component.create = function(inProps) {
+    var className;
+    className = Rrs.Obj.getClass(this);
+    return new window[className](inProps);
+  };
 
   Component.prototype.init = function() {
     this._initHandlers();
@@ -19,14 +38,17 @@ Rrs.Component = (function() {
 
   Component.prototype._initHandlers = function() {
     var element, elementName, eventName, handler, handlerData, handlerName, _ref, _results;
-    _ref = this.handlers;
+    _ref = this._handlers;
     _results = [];
     for (handlerName in _ref) {
       handler = _ref[handlerName];
       handlerData = handlerName.split(' ');
       elementName = handlerData[0];
       eventName = handlerData[1];
-      element = this.elements[elementName];
+      if (handlerData.length !== 2) {
+        throw new Error("" + elementName + " has incorrect format. Selector name and event name must be splitted with single space");
+      }
+      element = this._elements[elementName];
       if (Rrs.Util.isString(element)) {
         element = jQuery(element);
       } else if (Rrs.Util.isJQeryObject(element)) {
@@ -35,8 +57,8 @@ Rrs.Component = (function() {
         throw new Error("" + elementName + " must be either string selector or jQuery object");
       }
       if (element.length > 0) {
-        this.elements[elementName].unbind(eventName);
-        _results.push(this.elements[elementName].bind(eventName, (function(_this) {
+        this._elements[elementName].unbind(eventName);
+        _results.push(this._elements[elementName].bind(eventName, (function(_this) {
           return function() {
             return handler.call(_this);
           };
@@ -50,7 +72,7 @@ Rrs.Component = (function() {
 
   Component.prototype._initListeners = function() {
     var listenerCallback, listenerName, listenerNameData, _ref, _results;
-    _ref = this.listeners;
+    _ref = this._listeners;
     _results = [];
     for (listenerName in _ref) {
       listenerCallback = _ref[listenerName];

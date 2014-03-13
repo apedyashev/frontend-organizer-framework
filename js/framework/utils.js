@@ -47,6 +47,18 @@ Rrs.Obj = (function() {
     return className;
   };
 
+  Obj.extend = function(object, properties) {
+    var key, val;
+    if (object == null) {
+      object = {};
+    }
+    for (key in properties) {
+      val = properties[key];
+      object[key] = val;
+    }
+    return object;
+  };
+
   return Obj;
 
 })();
