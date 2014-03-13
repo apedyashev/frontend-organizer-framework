@@ -15,6 +15,24 @@ describe("Rrs.Component", function() {
       userPanel2 = UserPanelWidget.create();
       return expect(userPanel1).not.toBe(userPanel2);
     });
+    it("that doesn't duplicates elements, handlers and listeners", function() {
+      var userPanel1, userPanel2;
+      userPanel1 = UserPanelWidget.create();
+      return userPanel2 = UserPanelWidget.create({
+        elements: {
+          someEl: '#some-el',
+          someInput: '.some-input'
+        },
+        handlers: {
+          'someEl click': function() {},
+          'someInput focus': function() {}
+        },
+        listeners: {
+          'render': function() {},
+          'notification': function() {}
+        }
+      }, expect(userPanel1._elements).toEqual({}), expect(userPanel1._handlers).toEqual({}), expect(userPanel1._listeners).toEqual({}));
+    });
     it("to extend elements property defined in the class", function() {
       var searchWidget;
       searchWidget = SearchWidget.create({

@@ -1,11 +1,17 @@
+# File: src/framework/observer.coffee
+
 window.Rrs ?= {}
 
 #
 # Implements subscube/notify pattern
+#
 # Interface:
 #  * @instance                                              [class method]  returns class singleton
 #  * emit: (inNamespace, inSignalName, inData)              [object method] emits signal to notify subscribers
 #  * listen: (inNamespace, inSignalName, callback, context) [object method] attaches event listener
+#
+# @author Alexey Pedyashev
+#
 class Rrs.Observer
   instance = null
   _listeners = {}

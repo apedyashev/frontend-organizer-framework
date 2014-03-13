@@ -1,5 +1,48 @@
+# File: src/framework/component.coffee
+
 window.Rrs ?= {}
 
+#
+# Base class for page components/widgets
+#
+# Interface:
+#  * @create                                                [class method]  Creates class object. May accept elements,
+#                                                                           handlers and listeners as hash
+#  * init:                                                  [object method] Initializes component
+#  * emit(inSignalName, inData):                            [object method] Notify subscribed objects about some event
+#
+# @author Alexey Pedyashev
+#
+# @example 
+#
+# class SearchWidget extends Rrs.Component
+#   elements:
+#     # either string selector or jQuery objects are allowed
+#     searchButton: '#search-btn'
+#
+#   # handlers for events of elements defined in the 'elements' property
+#   handlers:
+#     'searchButton click': -> console.log 'clicked'
+#
+#   # subscribe to signals from another components
+#   listeners:
+#     # listen to signals from instances of SearchResults class only
+#     'SearchResults:rendered': (data)-> 
+#       console.log 'the rendered signal fron instance of SearchResults class was receveid with data', data  
+#     # listen to signals from any objects
+#     'render-search': ->
+#       console.log 'the render-search signal was received'
+#
+#   # When object is being instantiated, you can pass the same properties to the create finction to add more
+#   # elements, handlers and listeners
+#   search = SearchWidget.create(
+#     elements:
+#       #....
+#     handlers:
+#       #....
+#     listeners:
+#       #....
+#
 class Rrs.Component
 
   constructor: (inProps)->
@@ -11,20 +54,37 @@ class Rrs.Component
     @_listeners  = Rrs.Obj.extend(@_listeners, inProps.listeners)  if inProps?.listeners?
     @_handlers   = Rrs.Obj.extend(@_handlers, inProps.handlers)    if inProps?.handlers?
 
-    # console.error  '!!!!!!!******************* ', Rrs.Obj.getClass(@), @_listeners
 
+  #
+  # Creates class object. May accept elements, handlers and listeners as hash
+  #
+  # @param [Hash]   inProps     Accepts hash of{elements, listeners, handlers}
+  #
   @create: (inProps)->
     className = Rrs.Obj.getClass(@)
     new window[className](inProps)
 
+  #
+  # Initializes component
+  #
   init: ->
     @_initHandlers()
     @_initListeners()
 
+  #
+  # Notify subscribed objects about some event
+  #
+  # @param:   [String]  inSignalName    string with signal name
+  # @param    [Hash]    inData          Event data to be sent 
+  #
   emit: (inSignalName, inData)->
     sender = Rrs.Obj.getClass(@)
     Rrs.Observer.instance().emit sender, inSignalName, inData
 
+
+  #
+  # Initializes handlers
+  #
   _initHandlers: ->
     for handlerName, handler of @_handlers
       handlerData = handlerName.split(' ')
@@ -46,11 +106,15 @@ class Rrs.Component
       if element.length > 0
         @_elements[elementName].unbind eventName
         @_elements[elementName].bind eventName, =>
+          #handler must be bound to object's context
           handler.call(@)
       else
         Rrs.logger.error "Unable to bind #{eventName} for #{elementName} since #{elementName} node does not exist in DOM"
 
 
+  #
+  # Initializes signals listeners
+  #
   _initListeners: ->
     for listenerName, listenerCallback of @_listeners
       listenerNameData = listenerName.split ":"

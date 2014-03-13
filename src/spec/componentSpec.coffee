@@ -16,6 +16,26 @@ describe "Rrs.Component", ->
       expect(userPanel1).not.toBe(userPanel2)
 
 
+    it "that doesn't duplicates elements, handlers and listeners", ->
+      userPanel1 = UserPanelWidget.create()
+      userPanel2 = UserPanelWidget.create
+        elements:
+          someEl:     '#some-el'
+          someInput:  '.some-input'
+
+        handlers: 
+          'someEl click': ->
+          'someInput focus': ->
+
+        listeners:
+          'render': ->
+          'notification': ->
+
+        expect(userPanel1._elements).toEqual {}
+        expect(userPanel1._handlers).toEqual {}
+        expect(userPanel1._listeners).toEqual {}
+
+
     it "to extend elements property defined in the class", ->
       searchWidget = SearchWidget.create
         elements:
