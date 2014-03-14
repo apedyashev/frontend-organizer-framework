@@ -26,7 +26,8 @@ All frameworks classes are defined inside of *Rrs* object.
 * Observer - implements  **emmit/subscribe** functionality
 
 ### Usage
-
+Let's imagine you are writing code for search page. To create an entry point  you need to define class derived from `Rrs.PageModule`. The `components` property will contain all neccessary widgets. 
+Note: when an instance of page module is being created with `.create()` function, you can add more widgets
 #### Page module
 ```coffeescript
 class SearchPage extends Rrs.PageModule
@@ -43,7 +44,12 @@ $(document).ready ->
       searchPanel  : SearchPanel.create()
 ```
 
-#### SearchResults component
+#### Component/Widget: SearchResults component
+The SearchResults class is class for page's area that is responsible for displaying of search results. This class must be extended from `Rrs.Component`.
+
+It listens to signals from instance(s) of `SearchPanel` class and renders received items and emits two signals:
+* rendered - the `SearchPanel` class is subscribed to it (see below)
+* notification - the `NotificationArea` class listens to this signal and renders notification message
 ```coffeescript
 class SearchResults extends Rrs.Component
   elements:
@@ -84,8 +90,14 @@ class SearchResults extends Rrs.Component
       @emit "notification", notification: notification
 ```
 
-#### SearchPanel component
+#### Component/Widget: SearchPanel component
+In our example search panel contains two elements: text input and button to perform search. These elements are inited in the `elements` property. You may initialize elements with either **string selector** or **jQuery object**.
 
+The `handlers` property contains handlers for these `elements`. Format of keys for the `handlers` hash is: `'elementName eventName'`. **IMPORTANT** **elementName** and event **eventName** **MUST** be splitted with SINGLE space.
+
+The `listeners` property allows to subsribe to events from another widgets. There are 2 ways to subscribe:
+* `"WidgetClassName:signal-name": ->` - will listen to signals with name `signal-name` from instances of `WidgetClassName` class only
+* `"signal-name" : ->` - will listen to signals with name `signal-name` from instances of any class
 ```coffeescript
 class SearchPanel extends Rrs.Component
   elements:
@@ -121,7 +133,15 @@ class SearchPanel extends Rrs.Component
 
 ```
 
-#### NotificationArea component
+#### Component/Widget: NotificationArea component
+Objects of this class will listen to the `notification` signal from any object. So if you want to create more widgets, you may use this widget to display notification by calling of following code 
+```coffeescript
+notification = 
+    className: 'error'
+    message: "you error message"
+@emit "notification", notification: notification
+```
+
 ```coffeescript
 class NotificationArea extends Rrs.Component
   template: _.template """<div class="notification <%= className %>">
