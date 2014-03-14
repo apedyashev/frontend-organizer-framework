@@ -15,7 +15,7 @@ Micro framework to organize JS code for frontend applications.
  * init DOM elements in one place
  * attach signals listeners (**subscribe/notify** implemened by`Observer class`)
  * attach **jQuery** events handlers
- * You can write **as many components** as you need. Each component will **handle events** like button clicks and then **notify subscribed objects** (if neccessary). That way your **components do not depend on another components** and can be **reused** on another pages. Just **compose you page** using **existing** components.
+* You can write **as many components** as you need. Each component will **handle events** like button clicks and then **notify subscribed objects** (if neccessary). That way your **components do not depend on another components** and can be **reused** on another pages. Just **compose you page** using **existing** components.
 
 ### Description
 All frameworks classes are defined inside of *Rrs* object.
