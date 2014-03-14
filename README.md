@@ -32,8 +32,8 @@ All frameworks classes are defined inside of *Rrs* object.
 class SearchPage extends Rrs.PageModule
   #components can be added on class declaration an later on instantiating stage 
   components:
-    searchResults       : new SearchResults
-    notificationArea    : new NotificationArea
+    searchResults       : SearchResults.create()
+    notificationArea    : NotificationArea.create()
 
 $(document).ready ->
   # componetns can be added here
