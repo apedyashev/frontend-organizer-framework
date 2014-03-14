@@ -1,16 +1,13 @@
-class MyPageModule extends Rrs.PageModule 
+class SearchPage extends Rrs.PageModule
+  #components can be added on class declaration an later on instantiating stage 
   components:
-    searchResults       : new SearchResults
-    notificationArea    : new NotificationArea
+    searchResults    : SearchResults.create()
+    notificationArea : NotificationArea.create()
 
 $(document).ready ->
-  # pageModule = new MyPageModule 
-  pageModule =  MyPageModule.create 
-    # # set module props
+  # componetns can be added here
+  searchPage =  SearchPage.create 
+    # set module props
     components:
-      searchPanel  : new SearchPanel
-
-
-
-
-
+      searchPanel  : SearchPanel.create()
+ 

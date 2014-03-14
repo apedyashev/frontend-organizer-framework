@@ -6,9 +6,9 @@ window.Rrs ?= {}
 # Base class for page components/widgets
 #
 # Interface:
-#  * @create                                                [class method]  Creates class object. May accept elements, handlers and listeners as hash
-#  * init:                                                  [object method] Initializes component
-#  * emit(inSignalName, inData):                            [object method] Notify subscribed objects about some event
+#  * @create                      [class method]  Creates class object. May accept elements, handlers and listeners as hash
+#  * init:                        [object method] Initializes component
+#  * emit(inSignalName, inData):  [object method] Notify subscribed objects about some event
 #
 # @author Alexey Pedyashev
 #

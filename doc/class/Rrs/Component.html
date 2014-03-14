@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../javascript/application.js'></script>
+  <script src='../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../extra/README.md.html' title='Frontend-organizer-framework'>
+      Frontend-organizer-framework
+    </a>
+    &raquo;
+    <a href='../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>Rrs</span>
+    &raquo;
+    <span class='title'>Component</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class:
+        Rrs.Component
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src&#47;framework&#47;component.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <p>Base class for page components/widgets</p><p>Interface:</p><ul>
+<li>@create                      [class method]  Creates class object. May accept elements, handlers and listeners as hash</li>
+<li>init:                        [object method] Initializes component</li>
+<li>emit(inSignalName, inData):  [object method] Notify subscribed objects about some event</li>
+</ul>
+
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      
+    </h4>
+    <pre><code class='coffeescript'>
+class SearchWidget extends Rrs.Component
+  elements:
+    # either string selector or jQuery objects are allowed
+    searchButton: &#39;#search-btn&#39;
+
+  # handlers for events of elements defined in the &#39;elements&#39; property
+  handlers:
+    &#39;searchButton click&#39;: -&gt; console.log &#39;clicked&#39;
+
+  # subscribe to signals from another components
+  listeners:
+    # listen to signals from instances of SearchResults class only
+    &#39;SearchResults:rendered&#39;: (data)-&gt; 
+      console.log &#39;the rendered signal fron instance of SearchResults class was receveid with data&#39;, data  
+    # listen to signals from any objects
+    &#39;render-search&#39;: -&gt;
+      console.log &#39;the render-search signal was received&#39;
+
+  # When object is being instantiated, you can pass the same properties to the create finction to add more
+  # elements, handlers and listeners
+  search = SearchWidget.create(
+    elements:
+      #....
+    handlers:
+      #....
+    listeners:
+      #....</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Author:</h3>
+  <ul class='author'>
+    <li>
+      Alexey Pedyashev 
+    </li>
+  </ul>
+</div>
+      <h2>Class Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#create-static'>
+        .
+(void)
+<b>create</b><span>(inProps)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Creates class object. 
+    </span>
+  </li>
+</ul>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#init-dynamic'>
+        #
+(void)
+<b>init</b><span>()</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Initializes component 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#emit-dynamic'>
+        #
+(void)
+<b>emit</b><span>(inSignalName, inData)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Notify subscribed objects about some event 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#_initHandlers-dynamic'>
+        #
+(void)
+<b>_initHandlers</b><span>()</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Initializes handlers 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#_initListeners-dynamic'>
+        #
+(void)
+<b>_initListeners</b><span>()</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Initializes signals listeners 
+    </span>
+  </li>
+</ul>
+      <h2>Class Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='create-static'>
+      .
+(void)
+<b>create</b><span>(inProps)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Creates class object. May accept elements, handlers and listeners as hash</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>inProps</span>
+      <span class='type'>
+        (<tt>Hash</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Accepts hash of{elements, listeners, handlers} </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-dynamic'>
+      #
+(void)
+<b>constructor</b><span>(inProps)</span>
+      <br>
+    </p>
+    
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='init-dynamic'>
+      #
+(void)
+<b>init</b><span>()</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Initializes component</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='emit-dynamic'>
+      #
+(void)
+<b>emit</b><span>(inSignalName, inData)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Notify subscribed objects about some event</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>inSignalName</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>string with signal name </span>
+    </li>
+    <li>
+      <span class='name'>inData</span>
+      <span class='type'>
+        (<tt>Hash</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Event data to be sent  </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='_initHandlers-dynamic'>
+      #
+(void)
+<b>_initHandlers</b><span>()</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Initializes handlers</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='_initListeners-dynamic'>
+      #
+(void)
+<b>_initListeners</b><span>()</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Initializes signals listeners</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  March 14, 14 14:56:40 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.6
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>

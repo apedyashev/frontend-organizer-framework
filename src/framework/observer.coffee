@@ -48,7 +48,7 @@ class Rrs.Observer
   # @param  inNamespace   [String]      namespace  
   # @param  inSignalName  [String]      signal name 
   # @param  callback      [Function]    Callback function that is called when signal is received
-  # @param  callback      [Object]      Context for callback function   
+  # @param  context       [Object]      Context for callback function   
   listen: (inNamespace, inSignalName, callback, context)->
     if inNamespace
       signal = "#{inNamespace}:#{inSignalName}"

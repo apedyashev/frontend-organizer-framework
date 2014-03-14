@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../javascript/application.js'></script>
+  <script src='../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../extra/README.md.html' title='Frontend-organizer-framework'>
+      Frontend-organizer-framework
+    </a>
+    &raquo;
+    <a href='../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>Rrs</span>
+    &raquo;
+    <span class='title'>Observer</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class:
+        Rrs.Observer
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src&#47;framework&#47;observer.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <p>Implements subscube/notify pattern</p><p>Interface:</p><ul>
+<li>@instance                                              [class method]  returns class singleton</li>
+<li>emit: (inNamespace, inSignalName, inData)              [object method] emits signal to notify subscribers</li>
+<li>listen: (inNamespace, inSignalName, callback, context) [object method] attaches event listener</li>
+</ul>
+
+</div>
+<div class='tags'>
+  <h3>Author:</h3>
+  <ul class='author'>
+    <li>
+      Alexey Pedyashev 
+    </li>
+  </ul>
+</div>
+      <h2>Class Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#instance-static'>
+        .
+(void)
+<b>instance</b><span>()</span>
+      </a>
+    </span>
+    <span class='desc'>
+      returns class singleton 
+    </span>
+  </li>
+</ul>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#emit-dynamic'>
+        #
+(void)
+<b>emit</b><span>(inNamespace, inSignalName, inData)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      emits signal to notify subscribers 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#listen-dynamic'>
+        #
+(void)
+<b>listen</b><span>(inNamespace, inSignalName, callback, context)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      emits signal to notify subscribers 
+    </span>
+  </li>
+</ul>
+      <h2>Class Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='instance-static'>
+      .
+(void)
+<b>instance</b><span>()</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>returns class singleton</p>
+</div>
+<div class='tags'>
+</div>
+  </div>
+</div>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-dynamic'>
+      #
+(void)
+<b>constructor</b><span>()</span>
+      <br>
+    </p>
+    
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='emit-dynamic'>
+      #
+(void)
+<b>emit</b><span>(inNamespace, inSignalName, inData)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>emits signal to notify subscribers</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>inNamespace</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>namespace   </span>
+    </li>
+    <li>
+      <span class='name'>inSignalName</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>signal name  </span>
+    </li>
+    <li>
+      <span class='name'>inData</span>
+      <span class='type'>
+        (<tt>Mixed</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Data to be passed to subscribers callback  </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='listen-dynamic'>
+      #
+(void)
+<b>listen</b><span>(inNamespace, inSignalName, callback, context)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>emits signal to notify subscribers</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>inNamespace</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>namespace   </span>
+    </li>
+    <li>
+      <span class='name'>inSignalName</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>signal name  </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (<tt>Function</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Callback function that is called when signal is received </span>
+    </li>
+    <li>
+      <span class='name'>context</span>
+      <span class='type'>
+        (<tt>Object</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Context for callback function    </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  March 14, 14 14:56:40 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.6
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>
