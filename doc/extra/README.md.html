@@ -48,9 +48,9 @@
 <li>init DOM elements in one place</li>
 <li>attach signals listeners (<strong>subscribe/notify</strong> implemened by<code>Observer class</code>)</li>
 <li>attach <strong>jQuery</strong> events handlers</li>
+<li>You can write <strong>as many components</strong> as you need. Each component will <strong>handle events</strong> like button clicks and then <strong>notify subscribed objects</strong> (if neccessary). That way your <strong>components do not depend on another components</strong> and can be <strong>reused</strong> on another pages. Just <strong>compose you page</strong> using <strong>existing</strong> components.</li>
 </ul>
 </li>
-<li>You can write <strong>as many components</strong> as you need. Each component will <strong>handle events</strong> like button clicks and then <strong>notify subscribed objects</strong> (if neccessary). That way your <strong>components do not depend on another components</strong> and can be <strong>reused</strong> on another pages. Just <strong>compose you page</strong> using <strong>existing</strong> components.</li>
 </ul>
 <h3 id="description">Description</h3><p>All frameworks classes are defined inside of <em>Rrs</em> object.</p><h3 id="classes">Classes</h3>
 <ul>
@@ -58,14 +58,120 @@
 <li>Component - base class for page components. Extens your component from this class</li>
 <li>Observer - implements  <strong>emmit/subscribe</strong> functionality</li>
 </ul>
-<h3 id="usage">Usage</h3>
-<pre><code class="lang-js">TBD
+<h3 id="usage">Usage</h3><p>Let&#39;s imagine you are writing code for search page. To create an entry point  you need to define class derived from <code>Rrs.PageModule</code>. The <code>components</code> property will contain all neccessary widgets. 
+Note: when an instance of page module is being created with <code>.create()</code> function, you can add more widgets</p><h4 id="page-module">Page module</h4>
+<pre><code class="lang-coffeescript">class SearchPage extends Rrs.PageModule
+  #components can be added on class declaration an later on instantiating stage 
+  components:
+    searchResults       : SearchResults.create()
+    notificationArea    : NotificationArea.create()
+
+$(document).ready -&gt;
+  # componetns can be added here
+  searchPage =  SearchPage.create 
+    # set module props
+    components:
+      searchPanel  : SearchPanel.create()
+</code></pre>
+<h4 id="component-widget-searchresults-component">Component/Widget: SearchResults component</h4><p>The SearchResults class is class for page&#39;s area that is responsible for displaying of search results. This class must be extended from <code>Rrs.Component</code>.</p><p>It listens to signals from instance(s) of <code>SearchPanel</code> class and renders received items and emits two signals:</p><ul>
+<li>rendered - the <code>SearchPanel</code> class is subscribed to it (see below)</li>
+<li><p>notification - the <code>NotificationArea</code> class listens to this signal and renders notification message</p><pre><code class="lang-coffeescript">class SearchResults extends Rrs.Component
+elements:
+  resultsContainer: $(&#39;#res-container&#39;)
+
+template: _.template &quot;&quot;&quot;&lt;tr&gt;
+  &lt;td&gt;#&lt;%= id %&gt;&lt;/td&gt;&lt;td&gt;&lt;%= title %&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot;&quot;&quot;
+
+# Listeners of events from another components
+listeners:
+  &quot;SearchPanel:render&quot;: (data)-&gt;
+    #SearchAutocomplete send us list if found items to be rendered
+    # Render them using underscore.js template
+    @elements.resultsContainer.html(&#39;&#39;)
+    if data.items?
+      for item in data.items
+        @elements.resultsContainer.append @template(item)
+
+      #notify all subscribed objects that rendering has been completed
+      @emit &quot;rendered&quot;
+
+      notification =
+        className: &#39;success&#39;
+        message: &quot;#{data.items.length} items have been rendered (notification sent from SearchResults)&quot;
+    else
+      notification = 
+        className: &#39;error&#39;
+        message: &quot;There are no items to render (notification sent from SearchResults)&quot;
+
+    # notify any subscribed object about rendering result
+    # if instance of SearchAutocomplete class (or any another component) are subsribed to this signal, 
+    # then they are able to proccess it
+    #
+    # NOTE: namespace will be prepended automatically. So to subscript on this event you need to listen to
+    # &#39;SearchResults:error&#39; signal
+    @emit &quot;notification&quot;, notification: notification
+</code></pre>
+</li>
+</ul>
+<h4 id="component-widget-searchpanel-component">Component/Widget: SearchPanel component</h4><p>In our example search panel contains two elements: text input and button to perform search. These elements are inited in the <code>elements</code> property. You may initialize elements with either <strong>string selector</strong> or <strong>jQuery object</strong>.</p><p>The <code>handlers</code> property contains handlers for these <code>elements</code>. Format of keys for the <code>handlers</code> hash is: <code>&#39;elementName eventName&#39;</code>. <strong>IMPORTANT</strong> <strong>elementName</strong> and event <strong>eventName</strong> <strong>MUST</strong> be splitted with SINGLE space.</p><p>The <code>listeners</code> property allows to subsribe to events from another widgets. There are 2 ways to subscribe:</p><ul>
+<li><code>&quot;WidgetClassName:signal-name&quot;: -&gt;</code> - will listen to signals with name <code>signal-name</code> from instances of <code>WidgetClassName</code> class only</li>
+<li><p><code>&quot;signal-name&quot; : -&gt;</code> - will listen to signals with name <code>signal-name</code> from instances of any class
+```coffeescript
+class SearchPanel extends Rrs.Component
+elements:
+  searchInput   : $(&#39;#search&#39;)
+  searchButton  : $(&#39;#search-button&#39;)</p><p>listeners: 
+  &quot;SearchResults:rendered&quot;: (data)-&gt; </p><pre><code>#Erase input after rendering was finished
+@elements.searchInput.val &#39;&#39;
+</code></pre><p>handlers: 
+  &quot;searchButton click&quot;: -&gt; </p><pre><code>searchTerm = @elements.searchInput.val()
+
+if searchTerm isnt &#39;&#39; 
+  # simulate search: generate several items
+  itemsCount = Math.random() * 20
+  items = []
+  for i in [0..itemsCount]
+    items.push 
+      id    : i
+      title : searchTerm + &quot;-&quot; + i
+
+  @emit &quot;render&quot;, items: items
+else
+  notification = 
+    className: &#39;error&#39;
+    message: &quot;Please enter search term (notification sent from SearchPanel)&quot;
+  @emit &#39;notification&#39;, notification: notification
+</code></pre></li>
+</ul>
+<pre><code>
+#### Component/Widget: NotificationArea component
+Objects of this class will listen to the `notification` signal from any object. So if you want to create more widgets, you may use this widget to display notification by calling of following code 
+```coffeescript
+notification = 
+    className: &#39;error&#39;
+    message: &quot;you error message&quot;
+@emit &quot;notification&quot;, notification: notification
+</code></pre><pre><code class="lang-coffeescript">class NotificationArea extends Rrs.Component
+  template: _.template &quot;&quot;&quot;&lt;div class=&quot;notification &lt;%= className %&gt;&quot;&gt;
+    &lt;span&gt;&lt;%= className %&gt;:&lt;/span&gt; &lt;%= message %&gt;
+  &lt;/div&gt;
+  &quot;&quot;&quot;
+
+  elements:
+    notificationArea: $(&#39;#notification-area&#39;)
+
+  # Listeners of events from another components
+  listeners:
+    &quot;notification&quot;: (data)-&gt;
+      @elements.notificationArea.html @template(data.notification)
 </code></pre>
 
       </div>
     </div>
     <div id='footer'>
-  March 14, 14 14:56:40 by
+  March 14, 14 16:25:33 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>
