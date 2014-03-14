@@ -96,9 +96,9 @@ class Rrs.Component
       
       
       element = @_elements[elementName]
-      if Rrs.Util.isString element
+      if Rrs.Obj.isString element
         element = jQuery(element)
-      else if Rrs.Util.isJQeryObject element
+      else if Rrs.Obj.isJQeryObject element
         element = jQuery(element.selector)
       else
         throw new Error "#{elementName} must be either string selector or jQuery object"

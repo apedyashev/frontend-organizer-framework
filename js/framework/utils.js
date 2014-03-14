@@ -31,10 +31,8 @@ Rrs.mixOf = function() {
   return Mixed;
 };
 
-Rrs.Obj = (function() {
-  function Obj() {}
-
-  Obj.getClass = function(inObject) {
+Rrs.Obj = {
+  getClass: function(inObject) {
     var className, objectType;
     objectType = (typeof inObject).toLowerCase();
     if (objectType === "function") {
@@ -42,12 +40,11 @@ Rrs.Obj = (function() {
     } else if (objectType === "object") {
       className = /(\w+)\(/.exec(inObject.constructor.toString())[1];
     } else {
-      className = false;
+      className = typeof inObject;
     }
     return className;
-  };
-
-  Obj.extend = function(object, properties) {
+  },
+  extend: function(object, properties) {
     var key, val;
     if (object == null) {
       object = {};
@@ -60,13 +57,7 @@ Rrs.Obj = (function() {
       object[key] = val;
     }
     return object;
-  };
-
-  return Obj;
-
-})();
-
-Rrs.Util = {
+  },
   isString: function(object) {
     return (typeof object).toLowerCase() === 'string';
   },

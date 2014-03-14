@@ -49,9 +49,9 @@ Rrs.Component = (function() {
         throw new Error("" + elementName + " has incorrect format. Selector name and event name must be splitted with single space");
       }
       element = this._elements[elementName];
-      if (Rrs.Util.isString(element)) {
+      if (Rrs.Obj.isString(element)) {
         element = jQuery(element);
-      } else if (Rrs.Util.isJQeryObject(element)) {
+      } else if (Rrs.Obj.isJQeryObject(element)) {
         element = jQuery(element.selector);
       } else {
         throw new Error("" + elementName + " must be either string selector or jQuery object");

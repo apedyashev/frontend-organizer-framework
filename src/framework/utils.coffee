@@ -7,26 +7,25 @@ Rrs.mixOf = (base, mixins...) ->
       Mixed::[name] = method
   Mixed
 
-class Rrs.Obj
-  @getClass: (inObject)->
+Rrs.Obj =
+  getClass: (inObject)->
     objectType =  (typeof inObject).toLowerCase()
     if objectType is "function"
       className = /^function\s(\w+)/.exec(inObject)[1]
     else if objectType is "object"
       className = /(\w+)\(/.exec(inObject.constructor.toString())[1]
     else
-     className = false
+     className = typeof inObject  
 
     className
 
-  @extend: (object, properties) ->
-    object      = {} unless object?
+  extend: (object, properties) ->
+    object      = {} unless object?  
     properties  = {} unless properties?
     for key, val of properties
       object[key] = val
     object
 
-Rrs.Util =
   isString: (object)->
     (typeof object).toLowerCase() is 'string'
 
