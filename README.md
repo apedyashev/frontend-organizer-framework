@@ -13,7 +13,7 @@ Micro framework to organize JS code for frontend applications.
 * Each page has it's own `.js` file (aka page module, `PageModule class`) that tie together your widgets (or components `Component class`)
 * Widgets/components are classes which are extended from `Component class`. They can:
  * init DOM elements in one place
- * attach signals listeners (**subscribe/notify** implemened by`Observer class`)
+ * attach signals listeners (**publish/subscribe** implemened by`Observer class`)
  * attach **jQuery** events handlers
 * You can write **as many components** as you need. Each component will **handle events** like button clicks and then **notify subscribed objects** (if neccessary). That way your **components do not depend on another components** and can be **reused** on another pages. Just **compose you page** using **existing** components.
 
@@ -23,7 +23,7 @@ All frameworks classes are defined inside of *Rrs* object.
 ### Classes
 * PageModule - base class for module that incapsulates page's code
 * Component - base class for page components. Extens your component from this class
-* Observer - implements  **emmit/subscribe** functionality
+* Observer - implements  **publish/subscribe** functionality
 
 ### Usage
 Let's imagine you are writing code for search page. To create an entry point  you need to define class derived from `Rrs.PageModule`. The `components` property will contain all neccessary widgets. 
