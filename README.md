@@ -9,7 +9,7 @@ Micro framework to organize JS code for frontend applications.
 * Allows to easily extend page functionality by adding new components
 * Reduces amount of code you need to write
   
-### Philosofy:
+### Philosophy:
 * Each page has it's own `.js` file (aka page module, `PageModule class`) that tie together your widgets (or components `Component class`)
 * Widgets/components are classes which are extended from `Component class`. They can:
  * init DOM elements in one place
