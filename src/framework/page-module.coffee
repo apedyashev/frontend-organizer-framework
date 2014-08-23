@@ -31,10 +31,15 @@ class Rrs.PageModule
 
     @_components = Rrs.Obj.extend(@_components, @components)
     @_components = Rrs.Obj.extend(@_components, _props.components) if _props?.components?
+    @_shared = Rrs.Obj.extend(@_shared, @shared)
+
+    @_shared = Rrs.Obj.extend(@_shared, _props.shared) if _props?.shared?
+       
 
     for cmpName, cmp  of @_components 
       if cmp instanceof Rrs.Component
-        cmp.init()
+        cmp.init
+          shared: @_shared
       else
         Rrs.logger.error "#{cmp.toString()} is not an instance of Component"
 

@@ -80,3 +80,10 @@ Rrs.Obj =
   #
   isJQeryObject: (object)->
     object instanceof jQuery
+
+  uniqueId: (length) ->
+    id = undefined
+    length = 8  unless length?
+    id = ""
+    id += Math.random().toString(36).substr(2)  while id.length < length
+    id.substr 0, length

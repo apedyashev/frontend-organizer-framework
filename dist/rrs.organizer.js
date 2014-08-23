@@ -22,6 +22,9 @@
       if ((inProps != null ? inProps.handlers : void 0) != null) {
         this._handlers = Rrs.Obj.extend(this._handlers, inProps.handlers);
       }
+      this.elements = this._elements;
+      this.listeners = this._listeners;
+      this.handlers = this._handlers;
     }
 
     Component.create = function(inProps) {
@@ -30,7 +33,10 @@
       return new window[className](inProps);
     };
 
-    Component.prototype.init = function() {
+    Component.prototype.init = function(inProps) {
+      if ((inProps != null ? inProps.shared : void 0) != null) {
+        this.shared = Rrs.Obj.extend(this.shared, inProps.shared);
+      }
       this._initHandlers();
       return this._initListeners();
     };
@@ -62,10 +68,10 @@
           throw new Error("" + elementName + " must be either string selector or jQuery object");
         }
         if (element.length > 0) {
-          this._elements[elementName].unbind(eventName);
-          _results.push(this._elements[elementName].bind(eventName, (function(_this) {
-            return function() {
-              return handler.call(_this);
+          element.unbind(eventName);
+          _results.push(element.bind(eventName, (function(_this) {
+            return function(e) {
+              return handler.call(_this, e);
             };
           })(this)));
         } else {
@@ -135,17 +141,27 @@
     function Observer() {}
 
     Observer.prototype.emit = function(inNamespace, inSignalName, inData) {
-      var namespacedSignal, _ref, _ref1;
+      var listener, namespacedSignal, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3, _results;
       namespacedSignal = "" + inNamespace + ":" + inSignalName;
       if (_listeners[namespacedSignal] != null) {
-        Rrs.logger.debug("Emitting namespaced signal " + namespacedSignal + ".", _listeners);
-        if ((_ref = _listeners[namespacedSignal].callback) != null) {
-          _ref.call(_listeners[namespacedSignal].context, inData);
+        _ref = _listeners[namespacedSignal];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          listener = _ref[_i];
+          Rrs.logger.debug("Emitting namespaced signal " + namespacedSignal + ".", listener);
+          if ((_ref1 = listener.callback) != null) {
+            _ref1.call(listener.context, inData);
+          }
         }
       }
       if (_listeners[inSignalName] != null) {
-        Rrs.logger.debug("Emitting broadcast signal " + namespacedSignal + ".", _listeners);
-        return (_ref1 = _listeners[inSignalName].callback) != null ? _ref1.call(_listeners[inSignalName].context, inData) : void 0;
+        _ref2 = _listeners[inSignalName];
+        _results = [];
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          listener = _ref2[_j];
+          Rrs.logger.debug("Emitting broadcast signal " + namespacedSignal + ".", listener);
+          _results.push((_ref3 = listener.callback) != null ? _ref3.call(listener.context, inData) : void 0);
+        }
+        return _results;
       }
     };
 
@@ -163,10 +179,13 @@
         throw new Error("Callback is not set for " + signal);
       }
       Rrs.logger.debug("Attaching listener to " + signal + " signal.", _listeners);
-      return _listeners[signal] = {
+      if (_listeners[signal] == null) {
+        _listeners[signal] = [];
+      }
+      return _listeners[signal].push({
         callback: callback,
         context: context
-      };
+      });
     };
 
     return Observer;
@@ -190,11 +209,17 @@
       if ((_props != null ? _props.components : void 0) != null) {
         this._components = Rrs.Obj.extend(this._components, _props.components);
       }
+      this._shared = Rrs.Obj.extend(this._shared, this.shared);
+      if ((_props != null ? _props.shared : void 0) != null) {
+        this._shared = Rrs.Obj.extend(this._shared, _props.shared);
+      }
       _ref = this._components;
       for (cmpName in _ref) {
         cmp = _ref[cmpName];
         if (cmp instanceof Rrs.Component) {
-          cmp.init();
+          cmp.init({
+            shared: this._shared
+          });
         } else {
           Rrs.logger.error("" + (cmp.toString()) + " is not an instance of Component");
         }
@@ -283,6 +308,18 @@
     },
     isJQeryObject: function(object) {
       return object instanceof jQuery;
+    },
+    uniqueId: function(length) {
+      var id;
+      id = void 0;
+      if (length == null) {
+        length = 8;
+      }
+      id = "";
+      while (id.length < length) {
+        id += Math.random().toString(36).substr(2);
+      }
+      return id.substr(0, length);
     }
   };
 

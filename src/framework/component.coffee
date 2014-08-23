@@ -53,6 +53,10 @@ class Rrs.Component
     @_listeners  = Rrs.Obj.extend(@_listeners, inProps.listeners)  if inProps?.listeners?
     @_handlers   = Rrs.Obj.extend(@_handlers, inProps.handlers)    if inProps?.handlers?
 
+    this.elements   = this._elements;
+    this.listeners  = this._listeners;
+    this.handlers   = this._handlers;
+
 
   #
   # Creates class object. May accept elements, handlers and listeners as hash
@@ -66,7 +70,9 @@ class Rrs.Component
   #
   # Initializes component
   #
-  init: ->
+  init: (inProps)->
+    @shared = Rrs.Obj.extend(@shared, inProps.shared) if inProps?.shared?
+
     @_initHandlers()
     @_initListeners()
 
@@ -103,10 +109,10 @@ class Rrs.Component
         throw new Error "#{elementName} must be either string selector or jQuery object"
 
       if element.length > 0
-        @_elements[elementName].unbind eventName
-        @_elements[elementName].bind eventName, =>
+        element.unbind eventName
+        element.bind eventName, (e)=>
           #handler must be bound to object's context
-          handler.call(@)
+          handler.call(@, e)
       else
         Rrs.logger.error "Unable to bind #{eventName} for #{elementName} since #{elementName} node does not exist in DOM"
 
